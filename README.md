@@ -6,7 +6,7 @@ Một trang web đơn giản được xây dựng bằng Next.js và Tailwind CS
 
 ## Table of contents
 - [ Table of contents](#table-of-contents)
-- [ Hướng dẫn cài đặt và chạy dự án](#how-to-run)
+- [ Hướng dẫn cài đặt và chạy dự án](#huong-dan-cai-dat-va-chay-du-an)
 
 ## Hướng dẫn cài đặt và chạy dự án
 
