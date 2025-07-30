@@ -1,3 +1,5 @@
+import styles from './ExpenseItem.module.css'; 
+
 const ExpenseItem = (props) => {
   return (
     <li className="bg-white flex items-center justify-between p-4 rounded-xl shadow-md mb-3">
@@ -9,7 +11,11 @@ const ExpenseItem = (props) => {
           <div className="text-xs">{props.date.getFullYear()}</div>
         </div>
         
-        <h2 className="text-lg font-semibold text-slate-800  line-clamp-2">{props.name}</h2>
+         <div className={`${styles.marqueeContainer} text-lg font-semibold text-slate-800`}>
+          <span className={styles.marqueeText}>
+            {props.name}
+          </span>
+        </div>
       </div>
 
       <div className="flex items-center gap-4 ml-5">
