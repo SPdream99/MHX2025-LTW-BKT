@@ -34,7 +34,7 @@ const ExpenseForm = (props) => {
     const expenseData = {
       id: nanoid(),
       name: enteredName,
-      amount: enteredAmount,
+      amount: +enteredAmount,
       date: new Date(enteredDate),
     };
 
@@ -42,25 +42,25 @@ const ExpenseForm = (props) => {
 
     setEnteredName('');
     setEnteredAmount('');
-    setEnteredDate('');
+    setEnteredDate(todayString);
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      <div>
-        <label>Tên khoản chi</label>
-        <input type="text" required value={enteredName} onChange={nameChangeHandler}/> 
+    <form onSubmit={submitHandler} className="bg-white p-6 rounded-xl shadow-lg mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <label  htmlFor="name" className="block mb-1 text-sm font-medium text-gray-700">Tên khoản chi</label>
+        <input type="text" required value={enteredName} onChange={nameChangeHandler} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"/> 
       </div>
       <div>
-        <label>Số tiền</label>
-        <input type="number" required min="0.01" step="0.01" value={enteredAmount} onChange={amountChangeHandler}/>
+        <label htmlFor="amount" className="block mb-1 text-sm font-medium text-gray-700">Số tiền</label>
+        <input type="number" required min="0" step="1" value={enteredAmount} onChange={amountChangeHandler} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"/>
       </div>
       <div>
-        <label>Ngày chi</label>
-        <input type="date" required value={enteredDate} onChange={dateChangeHandler}/>
+        <label htmlFor="date" className="block mb-1 text-sm font-medium text-gray-700">Ngày chi</label>
+        <input type="date" required value={enteredDate} onChange={dateChangeHandler} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"/>
       </div>
-      <div>
-        <button type="submit" >Thêm chi tiêu</button>
+      <div className="text-center">
+        <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" >Thêm chi tiêu</button>
       </div>
     </form>
   );
