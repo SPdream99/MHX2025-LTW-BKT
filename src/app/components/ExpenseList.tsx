@@ -1,10 +1,9 @@
 import ExpenseItem from './ExpenseItem';
 
 const ExpenseList = (props) => {
-  // props.items là một mảng các object chi tiêu
 
   if (props.items.length === 0) {
-    return <h2>Không tìm thấy khoản chi nào.</h2>;
+    return <h2 className="text-black">Không tìm thấy khoản chi nào. Hãy thêm ở trên.</h2>;
   }
 
   return (
@@ -17,6 +16,7 @@ const ExpenseList = (props) => {
       			amount={expense.amount}
       			date={expense.date}
 			onDelete={props.onDeleteExpense}
+			onStartEdit={props.onStartEdit}
     		/>
   	))}
     </ul>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 
 const ExpenseForm = (props) => {
@@ -38,12 +38,24 @@ const ExpenseForm = (props) => {
       date: new Date(enteredDate),
     };
 
+    if (props.editingItem) {
+    	props.onUpdateExpense(props.editingItem.id, expenseData);
+  } else {
     props.onAddExpense(expenseData);
+  }
 
     setEnteredName('');
     setEnteredAmount('');
     setEnteredDate(todayString);
   };
+
+    useEffect(() => {
+    if (props.editingItem) {
+      setEnteredName(props.editingItem.name);
+      setEnteredAmount(props.editingItem.amount);
+      setEnteredDate(props.editingItem.date.toISOString().slice(0, 10));
+    }
+  }, [props.editingItem]);
 
   return (
     <form onSubmit={submitHandler} className="bg-white p-6 rounded-xl shadow-lg mb-8">
@@ -60,7 +72,7 @@ const ExpenseForm = (props) => {
         <input type="date" required value={enteredDate} onChange={dateChangeHandler} className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"/>
       </div>
       <div className="text-center">
-        <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" >Thêm chi tiêu</button>
+        <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" >{props.editingItem ? 'Cập nhật' : 'Thêm chi tiêu'}</button>
       </div>
     </form>
   );

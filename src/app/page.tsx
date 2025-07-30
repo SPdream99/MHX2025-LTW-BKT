@@ -6,6 +6,7 @@ import ExpenseList from './components/ExpenseList';
 
 export default function Home() {
   const [expenses, setExpenses] = useState([]);
+  const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
     const savedExpenses = localStorage.getItem('expenses');
@@ -40,6 +41,23 @@ export default function Home() {
       return prevExpenses.filter(expense => expense.id !== expenseId);
     });
   };
+  
+  const startEditingHandler = (id) => {
+  	setEditingId(id);
+  };
+
+const expenseToEdit = editingId 
+    ? expenses.find(expense => expense.id === editingId) 
+    : null;
+
+const updateExpenseHandler = (id, updatedExpenseData) => {
+  setExpenses(prevExpenses => 
+    prevExpenses.map(expense => 
+      expense.id === id ? { ...expense, ...updatedExpenseData } : expense
+    )
+  );
+  setEditingId(null);
+};
 
   return (
     <main className="min-h-screen bg-slate-100 p-4 sm:p-8">
@@ -52,8 +70,8 @@ export default function Home() {
           Tổng chi tiêu: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}
         </h2>
         
-        <ExpenseForm onAddExpense={addExpenseHandler} />
-        <ExpenseList items={expenses} onDeleteExpense={deleteExpenseHandler} />
+        <ExpenseForm onAddExpense={addExpenseHandler} editingItem={expenseToEdit} onUpdateExpense={updateExpenseHandler}/>
+        <ExpenseList items={expenses} onDeleteExpense={deleteExpenseHandler} onStartEdit={startEditingHandler} />
       </div>
     </main>
   );
