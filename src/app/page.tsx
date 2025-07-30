@@ -1,30 +1,41 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import ExpenseForm from './components/ExpenseForm';
+import ExpenseList from './components/ExpenseList';
 
-export default function Page() {
-	const [expenses, setExpenses] = useState([]);
+export default function Home() {
+  const [expenses, setExpenses] = useState([]);
 
-	useEffect(()=>{
-		const savedExpenses = localStorage.getItem('expenses')
+  useEffect(() => {
+    const savedExpenses = localStorage.getItem('expenses');
+    if (savedExpenses) {
+      const parsedExpenses = JSON.parse(savedExpenses);
+      const expensesLocal = parsedExpenses.map(exp => ({
+        ...exp,
+        date: new Date(exp.date),
+      }));
+      setExpenses(expensesLocal);
+    }
+  }, []);
 
-		if (savedExpenses) {
-			setExpenses(JSON.parse(savedExpenses))
-		}
-	}, []);
+  useEffect(() => {
+    if (expenses.length > 0) {
+      localStorage.setItem('expenses', JSON.stringify(expenses));
+    }
+  }, [expenses]);
 
-	useEffect(()=>{
-		localStorage.setItem('expenses', JSON.stringify(expenses))
-	}, [expenses]);
-	
-	const addExpensesHandler = (newExpense) => {
-		setExpenses(prev => [newExpenses, ...prev]);
-	};
+  const addExpenseHandler = (expenseData) => {
+    setExpenses((prevExpenses) => {
+      return [expenseData, ...prevExpenses];
+    });
+  };
 
-	return (
-		<div>
-			<ExpenseForm onAddExpense = {addExpenseHandler}/>
-			<ExpenseList items={expenses}/>
-		</div>
-	)
+  return (
+    <div>
+      <h1>Quản lý chi tiêu</h1>
+      <ExpenseForm onAddExpense={addExpenseHandler} />
+      <ExpenseList items={expenses} />
+    </div>
+  );
 }

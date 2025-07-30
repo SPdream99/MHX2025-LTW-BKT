@@ -1,10 +1,13 @@
 "use client";
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
 
 const ExpenseForm = (props) => {
-  const [enteredName, setName] = useState('');
-  const [enteredAmount, setAmount] = useState('');
-  const [enteredDate, setDate] = useState('');
+  const [enteredName, setEnteredName] = useState('');
+  const [enteredAmount, setEnteredAmount] = useState('');
+
+  const todayString = new Date().toISOString().slice(0, 10);
+  const [enteredDate, setEnteredDate] = useState(todayString);
   
 
   const nameChangeHandler = (event) => {
@@ -23,10 +26,16 @@ const ExpenseForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    if (enteredName.trim() === '' || enteredAmount.trim() === '' || enteredDate.trim() === '') {
+    	alert('Vui lòng điền đầy đủ thông tin!');
+    	return;
+    }
+
     const expenseData = {
+      id: nanoid(),
       name: enteredName,
       amount: enteredAmount,
-      date: enteredDate,
+      date: new Date(enteredDate),
     };
 
     props.onAddExpense(expenseData);
@@ -40,15 +49,15 @@ const ExpenseForm = (props) => {
     <form onSubmit={submitHandler}>
       <div>
         <label>Tên khoản chi</label>
-        <input type="text" value={enteredName} onChange={nameChangeHandler}/> 
+        <input type="text" required value={enteredName} onChange={nameChangeHandler}/> 
       </div>
       <div>
         <label>Số tiền</label>
-        <input type="number" min="0.01" step="0.01" value={enteredAmount} onChange={amountChangeHandler}/>
+        <input type="number" required min="0.01" step="0.01" value={enteredAmount} onChange={amountChangeHandler}/>
       </div>
       <div>
         <label>Ngày chi</label>
-        <input type="date" min="2025-07-30" max="2028-12-31" value={enteredDate} onChange={dateChangeHandler}/>
+        <input type="date" required value={enteredDate} onChange={dateChangeHandler}/>
       </div>
       <div>
         <button type="submit" >Thêm chi tiêu</button>
