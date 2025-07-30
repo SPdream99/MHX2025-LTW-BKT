@@ -12,9 +12,15 @@ const ExpenseItem = (props) => {
         <h2 className="text-lg font-semibold text-slate-800">{props.name}</h2>
       </div>
 
+      <div className="flex items-center gap-4">
       <div className="bg-blue-100 text-blue-800 font-bold py-2 px-3 rounded-lg">
-        {new Intl.NumberFormat('vi-VN').format(props.amount)} VND
+      	{new Intl.NumberFormat('vi-VN').format(props.amount)} VND
       </div>
+    
+      <button onClick={() => props.onDelete(props.id)} className="text-red-500 hover:text-red-700 font-semibold">
+      	Xóa
+      </button>
+  </div>
 
     </li>
   );

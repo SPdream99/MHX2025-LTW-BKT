@@ -35,6 +35,12 @@ export default function Home() {
     return currentTotal + expense.amount;
   }, 0);
 
+  const deleteExpenseHandler = (expenseId) => {
+    setExpenses(prevExpenses => {
+      return prevExpenses.filter(expense => expense.id !== expenseId);
+    });
+  };
+
   return (
     <main className="min-h-screen bg-slate-100 p-4 sm:p-8">
       <div className="max-w-2xl mx-auto">
@@ -47,7 +53,7 @@ export default function Home() {
         </h2>
         
         <ExpenseForm onAddExpense={addExpenseHandler} />
-        <ExpenseList items={expenses} />
+        <ExpenseList items={expenses} onDeleteExpense={deleteExpenseHandler} />
       </div>
     </main>
   );
